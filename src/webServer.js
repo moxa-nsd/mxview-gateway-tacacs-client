@@ -18,10 +18,19 @@ class WebServer {
             const username = req.body.username;
             const password = req.body.password;
             const sharedKey = req.body.shared_key;
-            tacacs.authenticate(host, port, username, password, sharedKey, this._parseAuthType(authType)).then((result)=>{
-                res.sendStatus(200);
+            const timeout = parseInt(req.body.timeout);
+            tacacs.authenticate(host, port, username, password, sharedKey, this._parseAuthType(authType), timeout).then((result)=>{
+                return tacacs.authorize(host, port, username, password, sharedKey, this._parseAuthType(authType), timeout);
+            }).then((result)=>{
+                console.log(result);
+                res.status(200).send({level: result.level});
             }).catch((err)=>{
-                res.status(400).send(err);
+                console.log(err);
+                if(err === 'timeout') {
+                    res.status(408).send(err);
+                } else {
+                    res.status(400).send(err);
+                }
             });
         });
     }
