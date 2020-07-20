@@ -61,7 +61,7 @@ class Tacacs {
             client.on('error', function (err) {
                 console.log(err);
                 client.setTimeout(0);
-                if(err.errno === 'ETIMEDOUT') {
+                if(err.errno === 'ETIMEDOUT' || err.errno === 'ECONNREFUSED') {
                     // do nothing
                 } else {
                     reject(err);
