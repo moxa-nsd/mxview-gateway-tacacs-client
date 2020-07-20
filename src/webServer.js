@@ -14,7 +14,10 @@ class WebServer {
             console.log(req.body);
             const host = req.body.host;
             const port = req.body.port;
-            const authType = req.body.auth_type;
+            let authType = req.body.auth_type;
+            if (typeof authType === 'string' || authType instanceof String) {
+                authType = parseInt(authType);
+            }
             const username = req.body.username;
             const password = req.body.password;
             const sharedKey = req.body.shared_key;
@@ -44,18 +47,23 @@ class WebServer {
     _parseAuthType(authType) {
         switch(authType) {
             case 0: // ASCII:
+                console.log("Ascii Auth");
                 return tacacsPlus.TAC_PLUS_AUTHEN_TYPE_ASCII;
                 break;
             case 1: // PAP
+                console.log("PAP Auth");
                 return tacacsPlus.TAC_PLUS_AUTHEN_TYPE_PAP;
                 break;
             case 2: // CHAP
+                console.log("CHAP Auth");
                 return tacacsPlus.TAC_PLUS_AUTHEN_TYPE_CHAP;
                 break;
             case 3: // MSCHAP
+                console.log("MSCHAP Auth");
                 return tacacsPlus.TAC_PLUS_AUTHEN_TYPE_MSCHAP;
                 break;
             default:
+                console.log("Ascii Auth");
                 return tacacsPlus.TAC_PLUS_AUTHEN_TYPE_ASCII;
         }
     }

@@ -177,7 +177,7 @@ class Tacacs {
                 const authorReq = tacacs.createAuthorizationRequest({
                     authenMethod: tacacs.TAC_PLUS_AUTHEN_METH_TACACSPLUS,
                     privLvl: tacacs.TAC_PLUS_PRIV_LVL_MAX,
-                    authenType: tacacs.TAC_PLUS_AUTHEN_TYPE_ASCII,
+                    authenType: authType,
                     authenService: tacacs.TAC_PLUS_AUTHEN_SVC_NONE,
                     user: username,
                     port: port,
